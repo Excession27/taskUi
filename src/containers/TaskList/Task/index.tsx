@@ -1,16 +1,18 @@
 import { useMutation } from "@tanstack/react-query";
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import axiosClient from "../../../api/axios";
 import { invalidateQuery } from "../../../components/ReactQueryProvider";
 import Modal from "./Modal";
 import * as dayjs from "dayjs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
 import { faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faCheckDouble } from "@fortawesome/free-solid-svg-icons";
+import { faSquare } from "@fortawesome/free-solid-svg-icons";
+import { faSquareXmark } from "@fortawesome/free-solid-svg-icons";
 import "./Task.css";
 import {
   SelectionContext,
@@ -27,9 +29,14 @@ export type TaskType = {
 const Task = ({ id, task, isCompleted, entryDate }: TaskType) => {
   const modal = useRef<HTMLDialogElement>(null);
   const [edit, setEdit] = useState(false);
+  const [clicked, setClicked] = useState(false);
   const [newTask, setTask] = useState(task);
   const { selectionList, setSelectionList } =
     useContext<SelectionContextType>(SelectionContext);
+
+  // useEffect(() => {
+  //   ;
+  // }, [selectionList.length]);
 
   const deleteTask = useMutation(
     (id: number[]) => {
@@ -100,7 +107,7 @@ const Task = ({ id, task, isCompleted, entryDate }: TaskType) => {
             <span className="tooltiptext">Mark as done</span>
             <FontAwesomeIcon
               className={`${isCompleted && "text-green-600"} `}
-              icon={faCheckCircle}
+              icon={faCheckDouble}
             />
           </button>
           <button
@@ -116,26 +123,47 @@ const Task = ({ id, task, isCompleted, entryDate }: TaskType) => {
             <span className="tooltiptext">Edit</span>
             <FontAwesomeIcon icon={faPenToSquare} />
           </button>
-          <input
-            type="checkbox"
-            onClick={(e: any) => {
-              setSelectionList((prev: number[]) => {
-                const index = selectionList.findIndex((x) => {
-                  console.log(x);
-                  return x === e.target.value;
+          {!clicked ? (
+            <button
+              key={`${id!.toString()}`}
+              onClick={() => {
+                setClicked((prev) => !prev);
+                setSelectionList((prev: number[]) => {
+                  const index = selectionList.findIndex((x) => {
+                    return x === id;
+                  });
+                  if (index === -1) {
+                    prev.push(id!);
+                  }
+
+                  return [...prev];
                 });
-                if (index === -1) {
-                  prev.push(e.target.value);
-                }
-                if (index > -1) {
-                  prev.splice(index, 1);
-                }
-                console.log(prev);
-                return [...prev];
-              });
-            }}
-            value={id}
-          ></input>
+              }}
+            >
+              <FontAwesomeIcon icon={faSquare} />
+            </button>
+          ) : (
+            <button
+              key={`${id!.toString()}`}
+              onClick={() => {
+                setClicked((prev) => !prev);
+                setSelectionList((prev: number[]) => {
+                  const index = selectionList.findIndex((x) => {
+                    return x === id;
+                  });
+                  if (index > -1) {
+                    prev.splice(index, 1);
+                  }
+                  return [...prev];
+                });
+              }}
+            >
+              <FontAwesomeIcon
+                name={`id!.toString()${clicked}`}
+                icon={faSquareXmark}
+              />
+            </button>
+          )}
         </div>
       ) : (
         <>

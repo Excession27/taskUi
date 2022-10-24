@@ -26,10 +26,6 @@ export default function SelectionContextProvider({
   // const [display, setDisplay] = useState(false);
   const display = selectionList.length > 0;
 
-  // useEffect(() => {
-  //   setDisplay(selectionList.length > 0);
-  // }, [selectionList.length]);
-
   return (
     <SelectionContext.Provider
       value={{ selectionList, setSelectionList, display }}
