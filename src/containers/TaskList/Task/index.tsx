@@ -120,19 +120,20 @@ const Task = ({ id, task, isCompleted, entryDate }: TaskType) => {
             type="checkbox"
             onClick={(e: any) => {
               setSelectionList((prev: number[]) => {
-                const index = selectionList.findIndex(
-                  (x) => x === e.target.value
-                );
+                const index = selectionList.findIndex((x) => {
+                  console.log(x);
+                  return x === e.target.value;
+                });
                 if (index === -1) {
                   prev.push(e.target.value);
                 }
                 if (index > -1) {
                   prev.splice(index, 1);
                 }
-                return prev;
+                console.log(prev);
+                return [...prev];
               });
             }}
-            readOnly
             value={id}
           ></input>
         </div>
