@@ -1,15 +1,18 @@
 import { useMutation } from "@tanstack/react-query";
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import axiosClient from "../../../api/axios";
 import { invalidateQuery } from "../../../components/ReactQueryProvider";
 import { SelectionContext } from "../../../components/SelectionContext";
+import Modal from "../Task/Modal";
 
 const DeleteMultiple = () => {
+  const modal = useRef<HTMLDialogElement>(null);
   const { selectionList, setSelectionList, display } =
     useContext(SelectionContext);
 
   const deleteTask = useMutation(
     (id: number[]) => {
+      setSelectionList([]);
       return axiosClient.delete(`/api/Task`, { data: id });
     },
     { onSuccess: invalidateQuery }
@@ -20,13 +23,13 @@ const DeleteMultiple = () => {
       {display && (
         <button
           onClick={() => {
-            deleteTask.mutate(selectionList);
-            setSelectionList([]);
+            modal.current?.showModal();
           }}
         >
           Delete selected
         </button>
       )}
+      <Modal modal={modal} id={selectionList} deleteTask={deleteTask} />
     </>
   );
 };

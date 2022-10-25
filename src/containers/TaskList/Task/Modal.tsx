@@ -10,19 +10,24 @@ type ModalType = {
     number[],
     unknown
   >;
-  id: number;
+  id: number | number[];
 };
 
 const Modal = ({ modal, deleteTask, id }: ModalType) => {
   return (
     <dialog
       ref={modal}
-      className="bg-slate-700 rounded-lg backdrop:bg-gray-700/50"
+      className="rounded-lg bg-slate-700 backdrop:bg-gray-700/50"
     >
       <h2>Are you sure you want to delete this task?</h2>
       <button
         onClick={() => {
-          deleteTask.mutate([id!]);
+          if (typeof id === "number") {
+            deleteTask.mutate([id!]);
+          }
+          if (typeof id === "object") {
+            deleteTask.mutate(id);
+          }
           modal.current?.close();
         }}
       >

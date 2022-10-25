@@ -15,7 +15,7 @@ const TaskList = () => {
       <DeleteMultiple />
       {taskArray?.data.map((task: TaskType, index: number) => (
         <Task
-          key={index}
+          key={task.id}
           id={task.id}
           task={task.task}
           isCompleted={task.isCompleted}

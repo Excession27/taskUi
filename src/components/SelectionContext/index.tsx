@@ -23,7 +23,6 @@ export default function SelectionContextProvider({
   children,
 }: SelectionProviderProps) {
   const [selectionList, setSelectionList] = useState<number[]>([]);
-  // const [display, setDisplay] = useState(false);
   const display = selectionList.length > 0;
 
   return (

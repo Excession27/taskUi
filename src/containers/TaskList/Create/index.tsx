@@ -16,9 +16,9 @@ const Create = () => {
   return (
     <>
       {show ? (
-        <div className="mb-6 w-100 flex flex-col">
+        <div className="w-100 mb-6 flex flex-col">
           <input
-            className="h-10 pl-4 mb-2 mx-[2px] border text-center rounded"
+            className="mx-[2px] mb-2 h-10 rounded border pl-4 text-center"
             name="task"
             value={task}
             onChange={(e: any) => setTask(e.target.value)}
@@ -40,7 +40,7 @@ const Create = () => {
           </div>
         </div>
       ) : (
-        <button className="mb-6 w-100" onClick={() => setShow(true)}>
+        <button className="w-100 mb-6" onClick={() => setShow(true)}>
           Create a task
         </button>
       )}

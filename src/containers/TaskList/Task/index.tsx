@@ -70,16 +70,16 @@ const Task = ({ id, task, isCompleted, entryDate }: TaskType) => {
   const date = dayjs(entryDate).format("DD/MM/YY HH:mm:ss");
 
   return (
-    <div className="flex p-2 border rounded-lg mb-2 justify-between items-center h-16 flex-grow">
-      <div className="flex flex-grow justify-start pr-4 overflow-auto">
-        <p className="text-xs w-10 my-auto mr-4">{date}</p>
+    <div className="mb-2 flex h-16 flex-grow items-center justify-between rounded-lg border p-2">
+      <div className="flex flex-grow justify-start overflow-auto pr-4">
+        <p className="my-auto mr-4 w-10 text-xs">{date}</p>
         {!edit ? (
-          <p className={`pr-3 overflow-auto ${isCompleted && "line-through"}`}>
+          <p className={`overflow-auto pr-3 ${isCompleted && "line-through"}`}>
             {task}
           </p>
         ) : (
           <input
-            className="pr-3 mx-[2px]"
+            className="mx-[2px] pr-3"
             name="task"
             value={newTask}
             onChange={(e: any) => setTask(e.target.value)}
@@ -90,7 +90,7 @@ const Task = ({ id, task, isCompleted, entryDate }: TaskType) => {
       {!edit ? (
         <div className="flex flex-shrink-0">
           <button
-            className="text-xs tooltip"
+            className="tooltip text-xs"
             onClick={() => {
               modal.current?.showModal();
             }}
@@ -99,7 +99,7 @@ const Task = ({ id, task, isCompleted, entryDate }: TaskType) => {
             <FontAwesomeIcon icon={faTrashCan} />
           </button>
           <button
-            className="text-xs tooltip"
+            className="tooltip text-xs"
             onClick={() => {
               markAsCompleted.mutate({ id, isCompleted, task, entryDate });
             }}
@@ -111,7 +111,7 @@ const Task = ({ id, task, isCompleted, entryDate }: TaskType) => {
             />
           </button>
           <button
-            className="text-xs tooltip"
+            className="tooltip text-xs"
             onClick={() => {
               duplicateTask.mutate(id!);
             }}
@@ -119,13 +119,12 @@ const Task = ({ id, task, isCompleted, entryDate }: TaskType) => {
             <span className="tooltiptext">Make a copy</span>
             <FontAwesomeIcon icon={faCopy} />
           </button>
-          <button onClick={() => setEdit(true)} className="text-xs tooltip">
+          <button onClick={() => setEdit(true)} className="tooltip text-xs">
             <span className="tooltiptext">Edit</span>
             <FontAwesomeIcon icon={faPenToSquare} />
           </button>
           {!clicked ? (
             <button
-              key={`${id!.toString()}`}
               onClick={() => {
                 setClicked((prev) => !prev);
                 setSelectionList((prev: number[]) => {
@@ -144,7 +143,6 @@ const Task = ({ id, task, isCompleted, entryDate }: TaskType) => {
             </button>
           ) : (
             <button
-              key={`${id!.toString()}`}
               onClick={() => {
                 setClicked((prev) => !prev);
                 setSelectionList((prev: number[]) => {
@@ -167,7 +165,7 @@ const Task = ({ id, task, isCompleted, entryDate }: TaskType) => {
         </div>
       ) : (
         <>
-          <button onClick={() => setEdit(false)} className="text-xs tooltip">
+          <button onClick={() => setEdit(false)} className="tooltip text-xs">
             <span className="tooltiptext">Cancel</span>
             <FontAwesomeIcon icon={faXmark} />
           </button>
@@ -176,7 +174,7 @@ const Task = ({ id, task, isCompleted, entryDate }: TaskType) => {
               setEdit(false);
               editTask.mutate({ id, task: newTask, entryDate, isCompleted });
             }}
-            className="text-xs tooltip"
+            className="tooltip text-xs"
           >
             <span className="tooltiptext">Save</span>
             <FontAwesomeIcon icon={faFloppyDisk} />
