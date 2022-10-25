@@ -22,14 +22,15 @@ const TaskList = () => {
           entryDate={task.entryDate}
         />
       ))}
-      {pageMetadata.TotalCount > pageParams.itemsPerPage && (
+      {
         <Pagination
           page={pageMetadata.CurrentPage}
           previousPage={previousPage}
           nextPage={nextPage}
           lastPage={pageMetadata.TotalPages}
+          display={pageMetadata.TotalCount > pageParams.itemsPerPage}
         />
-      )}
+      }
     </div>
   );
 };

@@ -5,6 +5,7 @@ type PaginationType = {
   lastPage: number;
   nextPage: () => void;
   previousPage: () => void;
+  display: boolean;
 };
 
 const Pagination = ({
@@ -12,15 +13,20 @@ const Pagination = ({
   previousPage,
   nextPage,
   lastPage,
+  display,
 }: PaginationType) => {
+  // TODO: Fix Cannot update a component (`TaskList`) while rendering a different component (`Pagination`)
+  if (page > lastPage) {
+    previousPage();
+  }
   return (
-    <div className="flex flex-col justify-evenly">
+    <div className={`${display ? "flex" : "hidden"} flex-col justify-evenly `}>
       <p className=" p-2 text-center">Page: {page}</p>
       <div className="flex justify-evenly">
         <button
           className={`rounded ${
             page !== 1 && "bg-lime-200 text-black"
-          } p-2 w-24`}
+          } w-24 p-2`}
           disabled={page === 1}
           onClick={() => previousPage()}
         >
@@ -29,7 +35,7 @@ const Pagination = ({
         <button
           className={`rounded ${
             page !== lastPage && "bg-lime-200 text-black"
-          } p-2 w-24`}
+          } w-24 p-2`}
           disabled={page === lastPage}
           onClick={() => nextPage()}
         >
